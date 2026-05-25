@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>셀렙(이머전트) | 연구실 기자재 A/S · 구매 문의</title>
+<meta name="description" content="연구실 기자재 전문 셀렙(이머전트) - SH Scientific, Leadfluid 제품의 A/S 및 구매 문의 온라인 접수">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{
+    --bg:#f3f4f6;
+    --surface:#ffffff;
+    --ink:#14161b;
+    --ink-2:#5c6270;
+    --ink-3:#8a8f9c;
+    --line:#e4e6eb;
+    --accent:#1d4ed8;
+    --radius:16px;
+    --maxw:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;
+  }
+  .container{max-width:var(--maxw);margin:0 auto;padding:0 24px;width:100%;}
+
+  /* ---------- header ---------- */
+  .site-header{
+    border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,.82);
+    backdrop-filter:blur(10px);
+    position:sticky;top:0;z-index:10;
+  }
+  .site-header .container{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .brand{display:flex;align-items:baseline;gap:10px;}
+  .brand .logo{font-size:21px;font-weight:800;letter-spacing:-.03em;}
+  .brand .logo i{font-style:normal;color:var(--accent);}
+  .brand .logo small{font-size:13px;font-weight:600;color:var(--ink-3);margin-left:2px;}
+  .brand .tag{font-size:12.5px;color:var(--ink-3);}
+  .header-note{font-size:13px;color:var(--ink-2);}
+
+  /* ---------- screens ---------- */
+  .screen{display:none;}
+  .screen.is-active{display:block;animation:fade .3s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  /* ---------- intro ---------- */
+  .intro{padding:58px 0 38px;}
+  .intro-eyebrow{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.06em;margin-bottom:14px;}
+  .intro-title{font-size:34px;font-weight:800;letter-spacing:-.035em;line-height:1.32;}
+  .intro-title em{font-style:normal;color:var(--accent);}
+  .intro-desc{margin-top:14px;font-size:16px;color:var(--ink-2);}
+
+  /* ---------- section title ---------- */
+  .section-title{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:26px;}
+  .section-title .num{font-size:14px;font-weight:700;color:var(--accent);}
+  .section-title h2{font-size:22px;font-weight:700;letter-spacing:-.025em;}
+  .section-title .sub{font-size:12.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.09em;}
+
+  /* ---------- service cards ---------- */
+  .service-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-bottom:66px;}
+  .service-card{
+    --card-accent:var(--accent);--card-tint:#eef2ff;
+    text-align:left;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);padding:32px;cursor:pointer;
+    display:flex;flex-direction:column;gap:16px;font-family:inherit;
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+  }
+  .service-card.as{--card-accent:#1d4ed8;--card-tint:#eef2ff;}
+  .service-card.purchase{--card-accent:#0f766e;--card-tint:#ecfdf5;}
+  .service-card:hover{transform:translateY(-4px);border-color:var(--card-accent);
+    box-shadow:0 18px 42px -18px rgba(20,22,27,.32);}
+  .service-card:focus-visible{outline:2px solid var(--card-accent);outline-offset:3px;}
+  .svc-icon{
+    width:56px;height:56px;border-radius:14px;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--card-tint);color:var(--card-accent);
+  }
+  .svc-icon svg{width:28px;height:28px;}
+  .svc-name{font-size:20px;font-weight:700;letter-spacing:-.025em;}
+  .svc-en{font-size:12px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;}
+  .svc-desc{font-size:14.5px;color:var(--ink-2);}
+  .svc-chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{font-size:12px;color:var(--ink-2);background:var(--bg);
+    border:1px solid var(--line);border-radius:999px;padding:5px 11px;}
+  .svc-go{margin-top:auto;padding-top:4px;font-size:14px;font-weight:600;
+    color:var(--card-accent);display:flex;align-items:center;gap:6px;}
+  .svc-go span{transition:transform .18s ease;}
+  .service-card:hover .svc-go span{transform:translateX(4px);}
+
+  /* ---------- footer ---------- */
+  .site-footer{margin-top:auto;border-top:1px solid var(--line);background:var(--surface);}
+  .site-footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;
+    gap:8px;padding-top:20px;padding-bottom:20px;font-size:12.5px;color:var(--ink-3);}
+
+  /* ---------- toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:13px 20px;border-radius:12px;
+    font-size:13.5px;opacity:0;pointer-events:none;max-width:90vw;text-align:center;
+    transition:opacity .25s ease,transform .25s ease;
+    box-shadow:0 14px 32px -12px rgba(0,0,0,.45);z-index:50;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- step head ---------- */
+  .step-head{display:flex;align-items:center;gap:12px;padding-top:30px;margin-bottom:8px;}
+  .back-btn{display:flex;align-items:center;gap:5px;font-family:inherit;font-size:13.5px;
+    color:var(--ink-2);background:none;border:none;cursor:pointer;padding:6px 2px;}
+  .back-btn:hover{color:var(--ink);}
+  .back-btn svg{width:16px;height:16px;}
+  .ctx-chip{font-size:12.5px;font-weight:600;border-radius:999px;padding:5px 12px;}
+  .ctx-chip.as{color:#1d4ed8;background:#eef2ff;}
+  .ctx-chip.purchase{color:#0f766e;background:#ecfdf5;}
+
+  /* ---------- brand cards ---------- */
+  .brand-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:22px 0 66px;}
+  .brand-card{text-align:left;background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius);overflow:hidden;cursor:pointer;font-family:inherit;
+    display:flex;flex-direction:column;
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+  .brand-card.sh{--card-accent:#334155;}
+  .brand-card.lf{--card-accent:#0891b2;}
+  .brand-card:hover{transform:translateY(-4px);border-color:var(--card-accent);
+    box-shadow:0 18px 42px -18px rgba(20,22,27,.32);}
+  .brand-card:focus-visible{outline:2px solid var(--card-accent);outline-offset:3px;}
+  .brand-card:hover .svc-go span{transform:translateX(4px);}
+  .brand-visual{height:220px;background:#ffffff;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;padding:18px;overflow:hidden;}
+  .bv-img{max-width:100%;max-height:100%;object-fit:contain;display:block;
+    transition:transform .25s ease;}
+  .brand-card:hover .bv-img{transform:scale(1.04);}
+  .brand-info{padding:22px 26px 24px;display:flex;flex-direction:column;gap:7px;flex:1;}
+  .bi-name{font-size:18px;font-weight:700;letter-spacing:-.02em;}
+  .bi-sub{font-size:12.5px;color:var(--ink-3);}
+  .bi-desc{font-size:14px;color:var(--ink-2);margin-top:3px;}
+
+  /* ---------- forms ---------- */
+  .form{max-width:680px;padding:24px 0 72px;}
+  .form-group-title{font-size:13px;font-weight:700;color:var(--accent);
+    padding-bottom:11px;margin-bottom:20px;border-bottom:1px solid var(--line);}
+  .form-group-title.mt{margin-top:36px;}
+  .field{margin-bottom:20px;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .field label{display:block;font-size:13.5px;font-weight:600;margin-bottom:7px;}
+  .req{color:#dc2626;}
+  .opt{color:var(--ink-3);font-weight:400;font-size:12.5px;}
+  .hint{font-size:12px;color:var(--ink-3);margin-top:6px;}
+  .input,.select,.textarea{width:100%;font-family:inherit;font-size:14px;color:var(--ink);
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:11px 13px;transition:border-color .15s ease,box-shadow .15s ease;}
+  .input::placeholder,.textarea::placeholder{color:#b6bac3;}
+  .input:focus,.select:focus,.textarea:focus{outline:none;border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(29,78,216,.13);}
+  .textarea{resize:vertical;min-height:88px;line-height:1.55;}
+  .select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:36px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%235c6270' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;}
+  .pg-group{display:flex;flex-wrap:wrap;gap:8px;}
+  .pg-btn{font-family:inherit;font-size:13px;color:var(--ink-2);background:var(--surface);
+    border:1px solid var(--line);border-radius:999px;padding:9px 15px;cursor:pointer;
+    transition:background .14s ease,border-color .14s ease,color .14s ease;}
+  .pg-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .pg-btn.selected{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+  .file-drop{display:flex;flex-direction:column;align-items:center;gap:6px;
+    border:1.5px dashed #cfd3da;border-radius:12px;padding:26px 20px;text-align:center;
+    cursor:pointer;transition:border-color .15s ease,background .15s ease;}
+  .file-drop:hover,.file-drop.drag{border-color:var(--accent);background:#fafbff;}
+  .file-drop svg{width:26px;height:26px;color:var(--ink-3);}
+  .fd-main{font-size:13.5px;font-weight:600;}
+  .fd-sub{font-size:12px;color:var(--ink-3);}
+  .file-list{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+  .file-list li{display:flex;align-items:center;font-size:13px;background:var(--bg);
+    border:1px solid var(--line);border-radius:8px;padding:8px 12px;}
+  .fl-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .fl-size{color:var(--ink-3);font-size:12px;flex:none;margin-left:10px;}
+  .fl-rm{flex:none;margin-left:8px;background:none;border:none;cursor:pointer;
+    color:var(--ink-3);font-size:17px;line-height:1;padding:0 3px;}
+  .fl-rm:hover{color:#dc2626;}
+  .submit-btn{margin-top:14px;width:100%;font-family:inherit;font-size:15px;font-weight:700;
+    color:#fff;background:var(--accent);border:none;border-radius:11px;padding:15px;
+    cursor:pointer;transition:background .15s ease,transform .1s ease;}
+  .submit-btn:hover{background:#1842c4;}
+  .submit-btn:active{transform:scale(.99);}
+
+  /* ---------- 제품 검색 (구매) ---------- */
+  .catalog-dl{display:flex;align-items:center;justify-content:space-between;gap:14px;
+    flex-wrap:wrap;background:linear-gradient(135deg,#1e293b,#334155);border-radius:12px;
+    padding:15px 18px;margin-bottom:22px;}
+  .cdl-title{color:#fff;font-size:14px;font-weight:700;}
+  .cdl-sub{color:rgba(255,255,255,.68);font-size:12px;margin-top:2px;}
+  .cdl-btn{flex:none;display:inline-flex;align-items:center;gap:7px;font-family:inherit;
+    font-size:13px;font-weight:600;text-decoration:none;color:var(--ink);background:#fff;
+    border-radius:9px;padding:10px 15px;transition:transform .12s ease;}
+  .cdl-btn:hover{transform:translateY(-1px);}
+  .cdl-btn svg{width:16px;height:16px;}
+  .search-wrap{position:relative;}
+  .search-wrap svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);
+    width:18px;height:18px;color:var(--ink-3);pointer-events:none;}
+  .search-wrap .input{padding-left:40px;}
+  .result-list{display:flex;flex-direction:column;gap:8px;max-height:344px;
+    overflow-y:auto;margin:6px 0 22px;}
+  .result-item{display:flex;align-items:center;gap:12px;background:var(--surface);
+    border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
+  .ri-info{flex:1;min-width:0;}
+  .ri-name{font-size:14px;font-weight:600;}
+  .ri-meta{font-size:12px;color:var(--ink-3);margin-top:2px;}
+  .ri-add{flex:none;font-family:inherit;font-size:13px;font-weight:600;color:var(--accent);
+    background:#eef2ff;border:none;border-radius:8px;padding:8px 14px;cursor:pointer;
+    transition:background .14s ease;}
+  .ri-add:hover{background:#e0e7ff;}
+  .ri-add.added{color:var(--ink-3);background:var(--bg);cursor:default;}
+  .result-empty{text-align:center;color:var(--ink-3);font-size:13px;padding:26px 0;}
+  .selected-box{background:var(--bg);border:1px solid var(--line);border-radius:12px;
+    padding:16px;margin-bottom:22px;}
+  .sb-title{font-size:13px;font-weight:700;margin-bottom:11px;}
+  .sb-title span{color:var(--accent);}
+  .sel-list{display:flex;flex-direction:column;gap:7px;}
+  .sel-item{display:flex;align-items:center;gap:10px;background:var(--surface);
+    border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:13px;}
+  .si-name{flex:1;}
+  .si-rm{flex:none;background:none;border:none;cursor:pointer;color:var(--ink-3);
+    font-size:16px;line-height:1;padding:0 3px;}
+  .si-rm:hover{color:#dc2626;}
+  .sel-empty{font-size:13px;color:var(--ink-3);}
+
+  /* ---------- 견적 요청 ---------- */
+  .quote-items{display:flex;flex-direction:column;gap:8px;}
+  .quote-item{display:flex;align-items:center;gap:12px;background:var(--surface);
+    border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
+  .qi-name{flex:1;font-size:14px;font-weight:600;}
+  .qi-qty{flex:none;display:flex;align-items:center;gap:8px;}
+  .qi-qty span{font-size:12px;color:var(--ink-3);}
+  .qi-input{width:70px;font-family:inherit;font-size:14px;text-align:center;color:var(--ink);
+    border:1px solid var(--line);border-radius:8px;padding:8px;}
+  .qi-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(29,78,216,.13);}
+  /* ---------- 완료 화면 ---------- */
+  .done-box{max-width:520px;margin:0 auto;text-align:center;padding:72px 24px 92px;}
+  .done-icon{width:72px;height:72px;border-radius:50%;background:#e7f6ee;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 24px;}
+  .done-icon svg{width:36px;height:36px;color:#15a05a;}
+  .done-title{font-size:23px;font-weight:800;letter-spacing:-.025em;}
+  .done-desc{font-size:14.5px;color:var(--ink-2);margin-top:12px;line-height:1.65;}
+  .done-btn{margin-top:30px;font-family:inherit;font-size:14px;font-weight:600;color:#fff;
+    background:var(--accent);border:none;border-radius:11px;padding:13px 34px;cursor:pointer;
+    transition:background .14s ease;}
+  .done-btn:hover{background:#1842c4;}
+
+  @media(max-width:720px){
+    .service-grid{grid-template-columns:1fr;}
+    .brand-grid{grid-template-columns:1fr;}
+    .field-row{grid-template-columns:1fr;}
+    .intro{padding:40px 0 30px;}
+    .intro-title{font-size:26px;}
+    .header-note{display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span class="logo">셀<i>렙</i><small>(이머전트)</small></span>
+        <span class="tag">연구실 기자재 전문</span>
+      </div>
+      <span class="header-note">A/S · 구매 문의 온라인 접수</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ 화면 01 · 서비스 선택 ============ -->
+    <section class="screen is-active" id="screen-service">
+      <div class="container">
+
+        <div class="intro">
+          <p class="intro-eyebrow">CELLAB · LABORATORY EQUIPMENT</p>
+          <h1 class="intro-title">연구실 기자재 전문 <em>셀렙(이머전트)</em>입니다</h1>
+          <p class="intro-desc">SH Scientific · Leadfluid 제품의 A/S와 구매 문의를 온라인으로 간편하게 접수하세요.</p>
+        </div>
+
+        <div class="section-title">
+          <span class="num">01 /</span>
+          <h2>원하시는 서비스를 선택해주세요</h2>
+          <span class="sub">Select Service</span>
+        </div>
+
+        <div class="service-grid">
+          <!-- A/S 문의 -->
+          <button class="service-card as" data-service="as" aria-label="A/S 문의 선택">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="svc-name">A/S 문의</div>
+              <div class="svc-en">After-Sales Service</div>
+            </div>
+            <p class="svc-desc">사용 중인 장비의 고장 · 점검을 접수합니다. 시리얼 번호와 증상만 입력하면 담당자가 빠르게 확인합니다.</p>
+            <div class="svc-chips">
+              <span class="chip">시리얼 · 증상 접수</span>
+              <span class="chip">사진 · 영상 첨부</span>
+            </div>
+            <div class="svc-go">A/S 접수하기 <span>→</span></div>
+          </button>
+
+          <!-- 구매 문의 -->
+          <button class="service-card purchase" data-service="purchase" aria-label="구매 문의 선택">
+            <div class="svc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="8" height="4" x="8" y="2" rx="1"/>
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                <path d="M8 11h.01M8 16h.01M12 11h4M12 16h4"/>
+              </svg>
+            </div>
+            <div>
+              <div class="svc-name">구매 문의</div>
+              <div class="svc-en">Purchase Inquiry</div>
+            </div>
+            <p class="svc-desc">SH Scientific · Leadfluid 제품의 견적 · 구매 상담을 신청합니다. 카탈로그에서 원하는 모델을 검색해 담아보세요.</p>
+            <div class="svc-chips">
+              <span class="chip">카탈로그 검색</span>
+              <span class="chip">견적 요청</span>
+            </div>
+            <div class="svc-go">구매 문의하기 <span>→</span></div>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ 화면 02 · 브랜드 선택 ============ -->
+    <section class="screen" id="screen-brand">
+      <div class="container">
+
+        <div class="step-head">
+          <button class="back-btn" type="button" data-back="screen-service">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            이전
+          </button>
+          <span class="ctx-chip as" id="ctxBrand">A/S 문의</span>
+        </div>
+
+        <div class="section-title">
+          <span class="num">02 /</span>
+          <h2>브랜드를 선택해주세요</h2>
+          <span class="sub">Select Manufacturer</span>
+        </div>
+
+        <div class="brand-grid">
+          <!-- SH Scientific -->
+          <button class="brand-card sh" data-brand="sh" aria-label="SH Scientific 선택">
+            <div class="brand-visual">
+              <img class="bv-img" src="data:image/jpeg;base64,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" alt="SH Scientific 대표 제품 - 튜브로 시스템" loading="lazy">
+            </div>
+            <div class="brand-info">
+              <div class="bi-name">SH Scientific</div>
+              <div class="bi-sub">삼흥에너지 · 실험실 장비</div>
+              <p class="bi-desc">전기로, 튜브로, 머플로, 진공 오븐, 볼밀, 항온·항습 챔버 등 실험실 열처리 및 범용 장비.</p>
+              <div class="svc-go">선택하기 <span>→</span></div>
+            </div>
+          </button>
+
+          <!-- Leadfluid -->
+          <button class="brand-card lf" data-brand="lf" aria-label="Leadfluid 선택">
+            <div class="brand-visual">
+              <img class="bv-img" src="data:image/jpeg;base64,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RAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREEmRHbls1tO0ipuoYNJWv9Q6UMWs1VZrjk+i6ObftWxlLropdoNNYBpPMFBpx5l2IRvxkdJDfT2pXU27gSGxWOjnX4rYVx0z2cuQsY6snl7li0mztiuqns1RXOreOHwKgqzmz0SDlpyh3wc4V/FQ/VzsPhlxo9xGVX022QzVlsB8fzR/cpzEwsnsV1lrwPBCVQVtCRgvsNyCPzmMn48/mpkRoRnMw5j0OrHLtE/3H5q90xfOxmlih0d7X+ClsRPwxhuhskmoAtu8UF40rdZ79w82lv0yKN2SHMYPRZeqKDaYdvrrrjsUNGrn2VWqwREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQFIkxWplHYebFdHip6IMel6War4x3a2j0FXEf3q2v6euLI7OKX6PA5+9ZmiDX8ayyDPYpojVMHPE9kgDxWeFuk1AmkEjkcclMRAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/9k=" alt="Leadfluid 대표 제품 - 연동펌프" loading="lazy">
+            </div>
+            <div class="brand-info">
+              <div class="bi-name">Leadfluid</div>
+              <div class="bi-sub">정밀 연동식 펌프</div>
+              <p class="bi-desc">연동펌프, 디스펜싱 펌프, 시린지 펌프, 기어 펌프 등 고정밀 유체 이송 솔루션.</p>
+              <div class="svc-go">선택하기 <span>→</span></div>
+            </div>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ 화면 03 · A/S 입력폼 ============ -->
+    <section class="screen" id="screen-as-form">
+      <div class="container">
+
+        <div class="step-head">
+          <button class="back-btn" type="button" data-back="screen-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            이전
+          </button>
+          <span class="ctx-chip as">A/S 문의</span>
+          <span class="ctx-chip brand" id="asBrandChip">SH Scientific</span>
+        </div>
+
+        <div class="section-title">
+          <span class="num">03 /</span>
+          <h2>A/S 접수 정보를 입력해주세요</h2>
+          <span class="sub">Service Request</span>
+        </div>
+
+        <form class="form" id="asForm" novalidate>
+          <div class="form-group-title">장비 및 증상 정보</div>
+
+          <div class="field">
+            <label for="asSerial">시리얼 넘버 <span class="req">*</span></label>
+            <input class="input" type="text" id="asSerial" placeholder="예: 20260525-fu-10mgv" required>
+            <div class="hint">제품 본체에 부착된 라벨에서 시리얼 번호를 확인하실 수 있습니다.</div>
+          </div>
+
+          <div class="field">
+            <label>제품군 <span class="req">*</span></label>
+            <div class="pg-group" id="asPgGroup"></div>
+            <div class="hint">접수하시는 제품의 제품군을 선택해주세요.</div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="asCategory">증상 카테고리 <span class="req">*</span></label>
+              <select class="select" id="asCategory" required>
+                <option value="">선택해주세요</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="asSymptom">세부 증상</label>
+              <select class="select" id="asSymptom">
+                <option value="">카테고리를 먼저 선택해주세요</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="asSymptomEtc">기타 · 상세 증상 설명</label>
+            <textarea class="textarea" id="asSymptomEtc" placeholder="목록에 없는 증상이거나, 증상이 나타나는 상황을 자세히 적어주시면 진단에 도움이 됩니다."></textarea>
+          </div>
+
+          <div class="field">
+            <label>사진 · 영상 첨부 <span class="opt">(선택)</span></label>
+            <label class="file-drop" for="asFiles" id="asDrop">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+              <div class="fd-main">파일을 선택하거나 이곳에 끌어다 놓으세요</div>
+              <div class="fd-sub">사진(JPG · PNG) · 영상(MP4 등) · 여러 개 첨부 가능</div>
+            </label>
+            <input type="file" id="asFiles" accept="image/*,video/*" multiple hidden>
+            <ul class="file-list" id="asFileList"></ul>
+          </div>
+
+          <div class="field">
+            <label for="asRequest">기타 요청사항</label>
+            <textarea class="textarea" id="asRequest" placeholder="방문 희망 일정, 추가 요청 사항 등을 자유롭게 적어주세요."></textarea>
+          </div>
+
+          <div class="form-group-title mt">연락처 정보</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="asName">이름 / 담당자 <span class="req">*</span></label>
+              <input class="input" type="text" id="asName" required>
+            </div>
+            <div class="field">
+              <label for="asPhone">연락처 <span class="req">*</span></label>
+              <input class="input" type="tel" id="asPhone" placeholder="010-0000-0000" required>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="asEmail">이메일 <span class="req">*</span></label>
+              <input class="input" type="email" id="asEmail" placeholder="name@example.com" required>
+            </div>
+            <div class="field">
+              <label for="asOrg">기관 / 회사명</label>
+              <input class="input" type="text" id="asOrg" placeholder="예: ○○대학교 화학과">
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">A/S 접수하기</button>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ============ 화면 04 · 구매 제품 검색 ============ -->
+    <section class="screen" id="screen-purchase">
+      <div class="container">
+
+        <div class="step-head">
+          <button class="back-btn" type="button" data-back="screen-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            이전
+          </button>
+          <span class="ctx-chip purchase">구매 문의</span>
+          <span class="ctx-chip brand" id="pcBrandChip">SH Scientific</span>
+        </div>
+
+        <div class="section-title">
+          <span class="num">04 /</span>
+          <h2>제품을 검색해주세요</h2>
+          <span class="sub">Select Product</span>
+        </div>
+
+        <div class="form">
+          <div class="catalog-dl">
+            <div class="cdl-text">
+              <div class="cdl-title">전체 제품 카탈로그</div>
+              <div class="cdl-sub">제품 사양을 카탈로그에서 자세히 확인하세요.</div>
+            </div>
+            <a class="cdl-btn" id="pcCatalog" href="#" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              카탈로그 다운로드
+            </a>
+          </div>
+
+          <div class="field">
+            <label>제품군</label>
+            <div class="pg-group" id="pcGroupFilter"></div>
+          </div>
+
+          <div class="field">
+            <label>제품 검색</label>
+            <div class="search-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+              <input class="input" type="text" id="pcSearch" placeholder="제품명 또는 모델명 검색 (예: 머플, 진공, BT300)" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="result-list" id="pcResults"></div>
+
+          <div class="selected-box">
+            <div class="sb-title">선택한 제품 <span id="pcCount">0</span>개</div>
+            <div class="sel-list" id="pcSelected"></div>
+          </div>
+
+          <button type="button" class="submit-btn" id="pcNext">견적 요청하기</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ 화면 05 · 견적 요청 폼 ============ -->
+    <section class="screen" id="screen-quote">
+      <div class="container">
+
+        <div class="step-head">
+          <button class="back-btn" type="button" data-back="screen-purchase">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            이전
+          </button>
+          <span class="ctx-chip purchase">구매 문의</span>
+          <span class="ctx-chip brand" id="qtBrandChip">SH Scientific</span>
+        </div>
+
+        <div class="section-title">
+          <span class="num">05 /</span>
+          <h2>견적 정보를 입력해주세요</h2>
+          <span class="sub">Quote Request</span>
+        </div>
+
+        <form class="form" id="quoteForm" novalidate>
+          <div class="catalog-dl">
+            <div class="cdl-text">
+              <div class="cdl-title">전체 제품 카탈로그</div>
+              <div class="cdl-sub">제품 사양을 카탈로그에서 자세히 확인하세요.</div>
+            </div>
+            <a class="cdl-btn" id="qtCatalog" href="#" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              카탈로그 다운로드
+            </a>
+          </div>
+
+          <div class="form-group-title">선택한 제품 · 수량</div>
+          <div class="quote-items" id="qtItems" style="margin-bottom:22px;"></div>
+
+          <div class="field">
+            <label for="qtDetail">상세 모델명 · 추가 옵션</label>
+            <textarea class="textarea" id="qtDetail" placeholder="원하시는 정확한 모델명, 사이즈, 전압, 펌프 헤드 · 튜브 등 추가 옵션을 적어주세요."></textarea>
+            <div class="hint">위에서 선택한 제품의 세부 모델 · 옵션을 알고 계시면 입력해주세요.</div>
+          </div>
+
+          <div class="field">
+            <label for="qtRequest">견적 요청사항</label>
+            <textarea class="textarea" id="qtRequest" placeholder="희망 사양, 납기, 예산 범위 등 견적에 참고할 내용을 자유롭게 적어주세요."></textarea>
+          </div>
+
+          <div class="form-group-title mt">연락처 정보</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="qtName">이름 / 담당자 <span class="req">*</span></label>
+              <input class="input" type="text" id="qtName" required>
+            </div>
+            <div class="field">
+              <label for="qtPhone">연락처 <span class="req">*</span></label>
+              <input class="input" type="tel" id="qtPhone" placeholder="010-0000-0000" required>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="qtEmail">이메일 <span class="req">*</span></label>
+              <input class="input" type="email" id="qtEmail" placeholder="name@example.com" required>
+            </div>
+            <div class="field">
+              <label for="qtOrg">기관 / 회사명</label>
+              <input class="input" type="text" id="qtOrg" placeholder="예: ○○대학교 화학과">
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">견적 요청하기</button>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ============ 완료 화면 ============ -->
+    <section class="screen" id="screen-done">
+      <div class="container">
+        <div class="done-box">
+          <div class="done-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h2 class="done-title" id="doneTitle">문의가 접수되었습니다</h2>
+          <p class="done-desc" id="doneDesc">담당자가 확인 후 회신드리겠습니다.</p>
+          <button type="button" class="done-btn" id="doneHome">처음으로</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>© 2026 셀렙(이머전트)</span>
+      <span>연구실 기자재 · SH Scientific · Leadfluid</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  /* 화면 전환 (다음 단계 화면이 추가되면 그대로 사용) */
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(function(s){
+      s.classList.toggle('is-active', s.id === id);
+    });
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  /* 안내 토스트 */
+  var toastTimer;
+  function showToast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3400);
+  }
+
+  /* 진행 상태 */
+  var state = {service:null, brand:null};
+
+  function updateBrandContext(){
+    var chip = document.getElementById('ctxBrand');
+    if(state.service === 'as'){
+      chip.textContent = 'A/S 문의';
+      chip.className = 'ctx-chip as';
+    }else{
+      chip.textContent = '구매 문의';
+      chip.className = 'ctx-chip purchase';
+    }
+  }
+
+  /* 서비스 선택 → 브랜드 선택 화면 */
+  document.querySelectorAll('.service-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      state.service = card.dataset.service;
+      updateBrandContext();
+      showScreen('screen-brand');
+    });
+  });
+
+  /* 브랜드 선택 */
+  document.querySelectorAll('.brand-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      state.brand = card.dataset.brand;
+      if(state.service === 'as'){
+        setupAsForm();
+        showScreen('screen-as-form');
+      }else{
+        setupPurchase();
+        showScreen('screen-purchase');
+      }
+    });
+  });
+
+  /* ===== A/S 입력폼 ===== */
+  var productGroups = {
+    sh: ['머플 전기로','튜브 전기로','진공 오븐 · 건조 오븐','진공 펌프 · 시스템','볼밀','환경 시험 챔버','소모품 · 액세서리','기타'],
+    lf: ['연동펌프','시린지 펌프','기어 펌프','필링 시스템','펌프 헤드','튜브 · 액세서리','기타']
+  };
+  var asPg = '';
+  var symptomData = {
+    sh: {
+      '전원 · 작동 불량': ['전원이 켜지지 않음','작동 중 갑자기 꺼짐','가열이 시작되지 않음','도어 인터락 오류','차단기가 내려감'],
+      '온도 이상': ['설정 온도에 도달하지 않음','과열(설정보다 높게 상승)','온도 편차가 큼','승온 속도가 느림','온도가 표시되지 않음'],
+      '디스플레이 · 제어 오류': ['화면 표시 이상 / 꺼짐','에러 코드 표시','버튼 · 터치 무반응','프로그램 설정 불가','PC 통신 오류'],
+      '소음 · 진동': ['비정상적인 소음','진동 발생','팬 소음'],
+      '누수 · 누유': ['진공펌프 오일 누유','냉각수 누수','가스 누설'],
+      '외관 · 부품 파손': ['도어 패킹 · 가스켓 손상','선반 · 트레이 파손','챔버 내부 손상','튜브 · 석영관 파손','외관 파손'],
+      '기타': []
+    },
+    lf: {
+      '토출 · 유량 이상': ['유량이 부족함','액이 토출되지 않음','유량이 불안정(맥동)','설정 유량과 실제 유량 불일치','역류 발생'],
+      '전원 · 작동 불량': ['전원이 켜지지 않음','작동 중 멈춤','모터가 회전하지 않음','회전 속도 이상'],
+      '튜브 · 헤드 문제': ['튜브 파손 · 마모','펌프 헤드 파손','롤러 손상','튜브 고정 불량'],
+      '디스플레이 · 제어 오류': ['화면 표시 이상','에러 코드 표시','버튼 · 터치 무반응','RS485 · 통신 오류','외부 제어 신호 미인식'],
+      '소음 · 진동': ['비정상적인 소음','진동 발생'],
+      '누액': ['펌프 헤드 누액','튜브 연결부 누액'],
+      '기타': []
+    }
+  };
+
+  function setupAsForm(){
+    var bname = (state.brand === 'sh') ? 'SH Scientific' : 'Leadfluid';
+    document.getElementById('asBrandChip').textContent = bname;
+    var pgGroup = document.getElementById('asPgGroup');
+    pgGroup.innerHTML = '';
+    asPg = '';
+    productGroups[state.brand].forEach(function(g){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pg-btn';
+      b.dataset.pg = g; b.textContent = g;
+      pgGroup.appendChild(b);
+    });
+    var cat = document.getElementById('asCategory');
+    cat.innerHTML = '<option value="">선택해주세요</option>';
+    Object.keys(symptomData[state.brand]).forEach(function(k){
+      var o = document.createElement('option');
+      o.value = k; o.textContent = k; cat.appendChild(o);
+    });
+    document.getElementById('asSymptom').innerHTML =
+      '<option value="">카테고리를 먼저 선택해주세요</option>';
+  }
+
+  document.getElementById('asCategory').addEventListener('change', function(){
+    var sym = document.getElementById('asSymptom');
+    var data = symptomData[state.brand] || {};
+    if(!(this.value in data)){
+      sym.innerHTML = '<option value="">카테고리를 먼저 선택해주세요</option>'; return;
+    }
+    var list = data[this.value];
+    if(list.length === 0){
+      sym.innerHTML = '<option value="">아래 상세 증상란에 입력해주세요</option>'; return;
+    }
+    sym.innerHTML = '<option value="">선택해주세요</option>';
+    list.forEach(function(s){
+      var o = document.createElement('option');
+      o.value = s; o.textContent = s; sym.appendChild(o);
+    });
+  });
+
+  /* 제품군 버튼 선택 */
+  document.getElementById('asPgGroup').addEventListener('click', function(e){
+    var btn = e.target.closest('.pg-btn');
+    if(!btn) return;
+    this.querySelectorAll('.pg-btn').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    asPg = btn.dataset.pg;
+  });
+
+  /* 파일 첨부 */
+  var asFiles = [];
+  var asFileInput = document.getElementById('asFiles');
+  var asDrop = document.getElementById('asDrop');
+  var asFileList = document.getElementById('asFileList');
+  function fmtSize(b){
+    if(b < 1024) return b + ' B';
+    if(b < 1048576) return Math.round(b/1024) + ' KB';
+    return (b/1048576).toFixed(1) + ' MB';
+  }
+  function renderAsFiles(){
+    asFileList.innerHTML = '';
+    asFiles.forEach(function(f, i){
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="fl-name"></span><span class="fl-size"></span>' +
+        '<button type="button" class="fl-rm" data-i="' + i + '" aria-label="삭제">×</button>';
+      li.querySelector('.fl-name').textContent = f.name;
+      li.querySelector('.fl-size').textContent = fmtSize(f.size);
+      asFileList.appendChild(li);
+    });
+  }
+  asFileInput.addEventListener('change', function(){
+    for(var i=0;i<this.files.length;i++) asFiles.push(this.files[i]);
+    renderAsFiles(); this.value = '';
+  });
+  asFileList.addEventListener('click', function(e){
+    if(e.target.classList.contains('fl-rm')){
+      asFiles.splice(parseInt(e.target.dataset.i,10),1); renderAsFiles();
+    }
+  });
+  ['dragover','dragenter'].forEach(function(ev){
+    asDrop.addEventListener(ev, function(e){ e.preventDefault(); asDrop.classList.add('drag'); });
+  });
+  ['dragleave','drop'].forEach(function(ev){
+    asDrop.addEventListener(ev, function(e){ e.preventDefault(); asDrop.classList.remove('drag'); });
+  });
+  asDrop.addEventListener('drop', function(e){
+    var fs = e.dataTransfer.files;
+    for(var i=0;i<fs.length;i++) asFiles.push(fs[i]);
+    renderAsFiles();
+  });
+
+  /* 제출 */
+  document.getElementById('asForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var serialEl = document.getElementById('asSerial');
+    if(!serialEl.value.trim()){
+      serialEl.focus();
+      showToast('시리얼 넘버 항목을 입력해주세요.');
+      return;
+    }
+    if(!asPg){
+      showToast('제품군을 선택해주세요.');
+      return;
+    }
+    var required = [['asCategory','증상 카테고리'],['asName','이름 / 담당자'],
+      ['asPhone','연락처'],['asEmail','이메일']];
+    for(var i=0;i<required.length;i++){
+      var el = document.getElementById(required[i][0]);
+      if(!el.value.trim()){
+        el.focus();
+        showToast(required[i][1] + ' 항목을 입력해주세요.');
+        return;
+      }
+    }
+    var asData = {
+      '브랜드': state.brand === 'sh' ? 'SH Scientific' : 'Leadfluid',
+      '시리얼 넘버': serialEl.value.trim(),
+      '제품군': asPg,
+      '증상 카테고리': document.getElementById('asCategory').value,
+      '세부 증상': document.getElementById('asSymptom').value || '-',
+      '상세 증상 설명': document.getElementById('asSymptomEtc').value.trim() || '-',
+      '기타 요청사항': document.getElementById('asRequest').value.trim() || '-',
+      '이름 / 담당자': document.getElementById('asName').value.trim(),
+      '연락처': document.getElementById('asPhone').value.trim(),
+      '이메일': document.getElementById('asEmail').value.trim(),
+      '기관 / 회사명': document.getElementById('asOrg').value.trim() || '-'
+    };
+    submitForm(this, 'as', asData, asFiles);
+  });
+
+  /* ===== 구매 제품 검색 ===== */
+  var productCatalog = {
+    sh: [
+      {g:'머플 전기로', n:'1050℃ 머플 전기로', c:'SH-FU-3MGE / 5MGE / 7MGE / 11MGE'},
+      {g:'머플 전기로', n:'1200℃ 머플 전기로', c:'SH-FU-3MG / 5MG / 14MG / 27MG / 64MG / 125MG'},
+      {g:'머플 전기로', n:'1500℃ 머플 전기로', c:'SH-FU-4MH / 11MH / 22MH / 36MH'},
+      {g:'머플 전기로', n:'1700℃ 머플 전기로', c:'SH-FU-4MS / 11MS / 22MS (1700)'},
+      {g:'머플 전기로', n:'1800℃ 머플 전기로', c:'SH-FU-4MS / 11MS / 22MS (1800)'},
+      {g:'머플 전기로', n:'1900℃ 머플 전기로', c:'SH-FU-4MS / 11MS / 22MS (1900)'},
+      {g:'머플 전기로', n:'1200℃ 진공 머플 전기로', c:'SH-FU-1.5MGV / 10MGV / 31MGV'},
+      {g:'머플 전기로', n:'1200℃ 진공 머플 전기로 (석영 챔버)', c:'SH-FU-1.5MGVQ / 10MGVQ / 31MGVQ'},
+      {g:'머플 전기로', n:'1500℃ 진공 머플 전기로', c:'SH-FU-4.5MHV / 18.7MHV'},
+      {g:'머플 전기로', n:'1900℃ 진공 머플 전기로', c:'SH-FU-4.5MSV / 10MSV / 18.7MSV'},
+      {g:'튜브 전기로', n:'1200℃ 튜브 전기로 (불활성가스, S타입)', c:'SH-FU-50 / 80 / 100 / 120 STG'},
+      {g:'튜브 전기로', n:'1200℃ 튜브 전기로 (불활성가스, L타입)', c:'SH-FU-50 / 80 / 100 / 120 LTG'},
+      {g:'튜브 전기로', n:'1200℃ 3-Zone 튜브 전기로', c:'SH-FU-50 / 80 / 100 / 120 LTG-3'},
+      {g:'튜브 전기로', n:'1500℃ 튜브 전기로 (불활성가스)', c:'SH-FU-50 / 80 / 100 / 120 TH'},
+      {g:'튜브 전기로', n:'1800℃ 튜브 전기로 (불활성가스)', c:'SH-FU-50 / 80 / 100 / 120 TS'},
+      {g:'튜브 전기로', n:'1200℃ 로터리 튜브 전기로', c:'SH-FU-100~140 RTG-2 / RTG-3'},
+      {g:'튜브 전기로', n:'진공 튜브로 턴키 시스템', c:'SH-FU + Chiller + Vacuum Pump'},
+      {g:'진공 오븐 · 건조 오븐', n:'150℃ 진공 건조 오븐', c:'SH-VDO-30NC / 70NC / 125NC'},
+      {g:'진공 오븐 · 건조 오븐', n:'250℃ 진공 건조 오븐', c:'SH-VDO-08NG / 30NG / 70NG / 125NG / 216NG'},
+      {g:'진공 오븐 · 건조 오븐', n:'400℃ 진공 건조 오븐', c:'SH-VDO-30NS / 70NS / 125NS'},
+      {g:'진공 펌프 · 시스템', n:'고진공 펌프 시스템', c:'SH-HV40'},
+      {g:'진공 펌프 · 시스템', n:'로터리 베인 진공펌프', c:'SH-V10 / V20 / V40 / V60 / V100'},
+      {g:'진공 펌프 · 시스템', n:'진공 다이어프램 펌프', c:'SH-VDC7 / VDC10 / VDC20'},
+      {g:'진공 펌프 · 시스템', n:'내부식성 화학 진공펌프', c:'SH-CV20'},
+      {g:'진공 펌프 · 시스템', n:'내부식성 진공 다이어프램 펌프', c:'SH-CDP30'},
+      {g:'진공 펌프 · 시스템', n:'다단 드라이 루츠 진공펌프', c:'SH-dVP 10 / 15 / 30'},
+      {g:'진공 펌프 · 시스템', n:'진공 여과 장치', c:'Vacuum Filtration Apparatus'},
+      {g:'볼밀', n:'볼밀 (Ball Mill)', c:'SH-BALL300-1 / 300-2 / 700-1 / 700-2'},
+      {g:'볼밀', n:'방음 캐비넷 볼밀', c:'SH-BALL300B / 700B'},
+      {g:'환경 시험 챔버', n:'항온 시험 챔버 (Temp Chamber)', c:'SH-CH-150 / 288 / 408 / 800 / 1200'},
+      {g:'환경 시험 챔버', n:'항온항습 시험 챔버 (Temp & Humi)', c:'SH-CTH-150 / 288 / 408 / 800 / 1200'},
+      {g:'환경 시험 챔버', n:'열충격 시험 챔버 (Thermal Shock)', c:'SH-TST27 / TST64'},
+      {g:'소모품 · 액세서리', n:'대형 응축 트랩 베스 (Cold Trap Bath)', c:'SH-WB-68GDR / 100GDR'},
+      {g:'소모품 · 액세서리', n:'순환식 칠러 (Chiller)', c:'SH-WB-5CDR / 12CDR'},
+      {g:'소모품 · 액세서리', n:'알루미나 도가니', c:'SH-ALC-10B~500B / 10L~500L'},
+      {g:'소모품 · 액세서리', n:'알루미나 튜브', c:'SH-AT-25K~274J'},
+      {g:'소모품 · 액세서리', n:'석영 튜브', c:'SH-QT-50~200'},
+      {g:'소모품 · 액세서리', n:'석영 보트', c:'SH-QB-2~15'},
+      {g:'소모품 · 액세서리', n:'석영 도가니', c:'SH-QC-30~500'},
+      {g:'소모품 · 액세서리', n:'석영 웨이퍼 캐리어', c:'SH-QWC-4 / 6 / 8'},
+      {g:'소모품 · 액세서리', n:'세라믹 튜브', c:'SH-CT-300 / 400 / 500'},
+      {g:'소모품 · 액세서리', n:'내열 장갑', c:'SH-SG-900'},
+      {g:'소모품 · 액세서리', n:'튜브 클램프 · 홀더', c:'SH-SM-50 / 60 / 80'}
+    ],
+    lf: [
+      {g:'연동펌프', n:'BQ80S 소형 정밀 연동펌프', c:'BQ80S · 0.0035~34mL/min'},
+      {g:'연동펌프', n:'BT103S 속도가변형 연동펌프', c:'BT103S · 0.00011~500mL/min'},
+      {g:'연동펌프', n:'BT101S 속도가변형 연동펌프', c:'BT101S · 0.00011~750mL/min'},
+      {g:'연동펌프', n:'BT301S 속도가변형 연동펌프', c:'BT301S · 0.005~1750mL/min'},
+      {g:'연동펌프', n:'BT601S 속도가변형 연동펌프', c:'BT601S · 0.005~3000mL/min'},
+      {g:'연동펌프', n:'BT100S 속도가변형 연동펌프', c:'BT100S · 0.00011~750mL/min'},
+      {g:'연동펌프', n:'BT300S 속도가변형 연동펌프', c:'BT300S · 0.005~1750mL/min'},
+      {g:'연동펌프', n:'BT600S 속도가변형 연동펌프', c:'BT600S · 0.005~3000mL/min'},
+      {g:'연동펌프', n:'BT100S-1 속도가변형 연동펌프', c:'BT100S-1 · 0.00011~750mL/min'},
+      {g:'연동펌프', n:'WT300S 대토크 속도가변형 연동펌프', c:'WT300S · 0.004~4200mL/min'},
+      {g:'연동펌프', n:'WT600S 대토크 속도가변형 연동펌프', c:'WT600S · 0.005~6600mL/min'},
+      {g:'연동펌프', n:'BT101L 인텔리전트 플로우 연동펌프', c:'BT101L · 0.00011~750mL/min'},
+      {g:'연동펌프', n:'BT301L 인텔리전트 플로우 연동펌프', c:'BT301L · 0.005~1750mL/min'},
+      {g:'연동펌프', n:'BT601L 인텔리전트 플로우 연동펌프', c:'BT601L · 0.005~3000mL/min'},
+      {g:'연동펌프', n:'BT100L 인텔리전트 플로우 연동펌프', c:'BT100L · 0.00011~750mL/min'},
+      {g:'연동펌프', n:'BT300L 인텔리전트 플로우 연동펌프', c:'BT300L · 0.005~1750mL/min'},
+      {g:'연동펌프', n:'BT600L 인텔리전트 플로우 연동펌프', c:'BT600L · 0.005~3000mL/min'},
+      {g:'연동펌프', n:'BT101F 인텔리전트 디스펜싱 연동펌프', c:'BT101F · 0.00011~750mL/min'},
+      {g:'연동펌프', n:'BT301F 인텔리전트 디스펜싱 연동펌프', c:'BT301F · 0.005~1750mL/min'},
+      {g:'연동펌프', n:'BT601F 인텔리전트 디스펜싱 연동펌프', c:'BT601F · 0.005~3000mL/min'},
+      {g:'연동펌프', n:'BT100F 인텔리전트 디스펜싱 연동펌프', c:'BT100F · 0.00011~750mL/min'},
+      {g:'연동펌프', n:'BT300F 인텔리전트 디스펜싱 연동펌프', c:'BT300F · 0.005~1750mL/min'},
+      {g:'연동펌프', n:'BT600F 인텔리전트 디스펜싱 연동펌프', c:'BT600F · 0.005~3000mL/min'},
+      {g:'연동펌프', n:'BT100F-1 고유량 디스펜싱 연동펌프', c:'BT100F-1 · 0.00011~1650mL/min'},
+      {g:'연동펌프', n:'WT300F 대토크 디스펜싱 연동펌프', c:'WT300F · 0.005~4200mL/min'},
+      {g:'연동펌프', n:'WT600F 대토크 디스펜싱 연동펌프', c:'WT600F · 0.005~6600mL/min'},
+      {g:'연동펌프', n:'JP300S 대용량 배치 이송 연동펌프', c:'JP300S · 0.64~33L/min'},
+      {g:'연동펌프', n:'JP301S 대용량 배치 이송 연동펌프', c:'JP301S · 0.64~33L/min'},
+      {g:'연동펌프', n:'BT600P 산업용 대유량 연동펌프', c:'BT600P · 0.006~2900mL/min'},
+      {g:'연동펌프', n:'BX600S 산업용 대유량 연동펌프', c:'BX600S · 1.5~3700mL/min'},
+      {g:'연동펌프', n:'MF · MS 고보호(방수) 연동펌프', c:'MF / MS Series · ~7800mL/min'},
+      {g:'연동펌프', n:'EF800 방폭 모터 연동펌프', c:'EF800 · 0.005~7800mL/min'},
+      {g:'연동펌프', n:'EF900 방폭 모터 연동펌프', c:'EF900 · 0.005~33000mL/min'},
+      {g:'연동펌프', n:'FP300S-A3 방폭 배치 이송 연동펌프', c:'FP300S-A3 · 0.6~33L/min'},
+      {g:'연동펌프', n:'FG600S-A3 방폭 대유량 연동펌프', c:'FG600S-A3 · 4~6000mL/min'},
+      {g:'연동펌프', n:'FG601S-A3 방폭 대유량 연동펌프', c:'FG601S-A3 · 1000~13000mL/min'},
+      {g:'연동펌프', n:'FG600S-W3 방폭 대유량 연동펌프', c:'FG600S-W3 · 8~6000mL/min'},
+      {g:'연동펌프', n:'FG601S-W3 방폭 대유량 연동펌프', c:'FG601S-W3 · 1800~13000mL/min'},
+      {g:'필링 시스템', n:'DS600 정량 분주(필링) 시스템', c:'DS600 · 0.005~3000mL/min'},
+      {g:'필링 시스템', n:'HSP3000 고정밀 시린지 필링 시스템', c:'HSP3000 · 25~3000μL'},
+      {g:'필링 시스템', n:'WSP3000 시린지 필링 시스템', c:'WSP3000 · 1~3000μL'},
+      {g:'시린지 펌프', n:'TYS01-02 듀얼 레이트 시린지 펌프', c:'TYS01-02'},
+      {g:'시린지 펌프', n:'TYD 시리즈 실험실용 시린지 펌프 (다채널)', c:'TYD01 / TYD02 / TYD03'},
+      {g:'시린지 펌프', n:'TFD 시리즈 분리형(Split) 실험실용 시린지 펌프', c:'TFD01 / TFD02 / TFD03 / TFD04'},
+      {g:'시린지 펌프', n:'TSD01 분리형 실험실용 시린지 펌프', c:'TSD01 / TSD01-01'},
+      {g:'시린지 펌프', n:'정밀 고압 시린지 펌프 (스테인리스 시린지)', c:'High Pressure Syringe Pump'},
+      {g:'시린지 펌프', n:'양방향 푸시-풀 시린지 펌프', c:'Two-way Push-pull Syringe Pump'},
+      {g:'시린지 펌프', n:'산업용 시린지 펌프', c:'G6060-1S / G3030-1S'},
+      {g:'기어 펌프', n:'CT3000S 속도가변형 정밀 기어펌프', c:'CT3000S'},
+      {g:'기어 펌프', n:'CT3001S 속도가변형 정밀 기어펌프', c:'CT3001S'},
+      {g:'기어 펌프', n:'CT3000F 인텔리전트 디스펜싱 정밀 기어펌프', c:'CT3000F'},
+      {g:'기어 펌프', n:'CT3001F 인텔리전트 디스펜싱 정밀 기어펌프', c:'CT3001F'},
+      {g:'펌프 헤드', n:'YZ15 · YZ25 · YZ35 표준 펌프 헤드', c:'YZ15 / YZ25 / YZ35'},
+      {g:'펌프 헤드', n:'YZ15T 펌프 헤드', c:'YZ15T'},
+      {g:'펌프 헤드', n:'YT15 · YT25 펌프 헤드', c:'YT15 / YT25'},
+      {g:'펌프 헤드', n:'DG · DS 시리즈 다채널 디스펜싱 펌프 헤드', c:'DG6 / DS6'},
+      {g:'펌프 헤드', n:'DT10 · DT15 다채널 펌프 헤드', c:'DT10 / DT15'},
+      {g:'펌프 헤드', n:'KZ25 고압 펌프 헤드', c:'KZ25 (L / PC / PPS)'},
+      {g:'펌프 헤드', n:'DMD15 · DMD25 펌프 헤드', c:'DMD15 / DMD25'},
+      {g:'펌프 헤드', n:'MG 시리즈 기어펌프 헤드', c:'MG204 / MG209 / MG213'},
+      {g:'튜브 · 액세서리', n:'연동펌프 전용 튜브 (Tubing)', c:'Tubing'},
+      {g:'튜브 · 액세서리', n:'풋스위치 · 외부 제어 등 액세서리', c:'Accessory'},
+      {g:'튜브 · 액세서리', n:'시린지 펌프 액세서리', c:'Syringe Accessory'}
+    ]
+  };
+  var purchaseSelected = [];
+  var pcFilter = '전체';
+
+  /* 검색 동의어 · 유사어 사전 */
+  var synonyms = {
+    '전기로':'furnace 퍼니스 훠니스 로 전기로',
+    '머플':'muffle 사각 박스 box 머플로 박스형',
+    '튜브':'tube 관상 관 튜브로 튜브형',
+    '로터리':'rotary 회전 회전식 킬른 kiln 로타리',
+    '진공':'vacuum 베큠 진공형',
+    '오븐':'oven 건조기 드라이오븐',
+    '건조':'dry drying 드라이',
+    '펌프':'pump 펌푸',
+    '볼밀':'ball mill 볼 밀 분쇄 분쇄기 그라인더 grinder',
+    '챔버':'chamber 시험기 시험챔버',
+    '항온':'thermo 온습도 항온항습 항습',
+    '연동':'peristaltic 페리스탈틱 튜빙 정량 연동식',
+    '시린지':'syringe 주사기 실린지 시린지펌프',
+    '기어':'gear 기어식',
+    '필링':'filling 충진 충전 정량주입',
+    '헤드':'head 펌프헤드',
+    '석영':'quartz 쿼츠 쿼쯔',
+    '알루미나':'alumina',
+    '도가니':'crucible 크루시블'
+  };
+  function buildSearchBlob(p){
+    var base = (p.n + ' ' + p.c + ' ' + p.g).toLowerCase();
+    var blob = base;
+    Object.keys(synonyms).forEach(function(k){
+      if(base.indexOf(k) >= 0) blob += ' ' + synonyms[k];
+    });
+    if(base.indexOf('℃') >= 0){
+      blob += ' 도씨 도 celsius';
+      (p.n.match(/\d{2,4}(?=\s*℃)/g) || []).forEach(function(ns){
+        var n = parseInt(ns, 10);
+        blob += ' ' + (Math.round(n/100)*100) + ' ' + (Math.floor(n/100)*100);
+      });
+    }
+    p.blob = blob;
+    p.blobC = blob.replace(/[\s\-\/.,·()]/g, '');
+  }
+  productCatalog.sh.forEach(buildSearchBlob);
+  productCatalog.lf.forEach(buildSearchBlob);
+
+  function setupPurchase(){
+    document.getElementById('pcBrandChip').textContent =
+      (state.brand === 'sh') ? 'SH Scientific' : 'Leadfluid';
+    var catLink = document.getElementById('pcCatalog');
+    if(state.brand === 'sh'){
+      catLink.href = 'assets/sh-catalog.pdf';
+      catLink.setAttribute('download', 'SH Scientific 카탈로그 2025.pdf');
+    }else{
+      catLink.href = 'assets/leadfluid-catalog.pdf';
+      catLink.setAttribute('download', 'Leadfluid 카탈로그 2025.pdf');
+    }
+    pcFilter = '전체';
+    purchaseSelected = [];
+    document.getElementById('pcSearch').value = '';
+    var gf = document.getElementById('pcGroupFilter');
+    gf.innerHTML = '';
+    var groups = ['전체'].concat(productGroups[state.brand].filter(function(g){ return g !== '기타'; }));
+    groups.forEach(function(g, idx){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pg-btn' + (idx === 0 ? ' selected' : '');
+      b.dataset.g = g; b.textContent = g;
+      gf.appendChild(b);
+    });
+    renderPcResults();
+    renderPcSelected();
+  }
+
+  function renderPcResults(){
+    var q = document.getElementById('pcSearch').value.trim().toLowerCase()
+              .replace(/도씨/g, '℃').replace(/(\d)\s*도(?![가-힣])/g, '$1℃');
+    var terms = q.split(/\s+/).filter(function(t){ return t; });
+    var list = productCatalog[state.brand].filter(function(p){
+      if(pcFilter !== '전체' && p.g !== pcFilter) return false;
+      for(var i=0;i<terms.length;i++){
+        var t = terms[i], tc = t.replace(/[\s\-\/.,·()]/g, '');
+        if(p.blob.indexOf(t) < 0 && (tc === '' || p.blobC.indexOf(tc) < 0)) return false;
+      }
+      return true;
+    });
+    var box = document.getElementById('pcResults');
+    box.innerHTML = '';
+    if(list.length === 0){
+      box.innerHTML = '<div class="result-empty">검색 결과가 없습니다. 다른 키워드로 검색해보세요.</div>';
+      return;
+    }
+    list.forEach(function(p){
+      var added = purchaseSelected.some(function(s){ return s.n === p.n; });
+      var item = document.createElement('div');
+      item.className = 'result-item';
+      item.innerHTML = '<div class="ri-info"><div class="ri-name"></div><div class="ri-meta"></div></div>' +
+        '<button type="button" class="ri-add' + (added ? ' added' : '') + '">' +
+        (added ? '추가됨' : '+ 추가') + '</button>';
+      item.querySelector('.ri-name').textContent = p.n;
+      item.querySelector('.ri-meta').textContent = p.g + '  ·  ' + p.c;
+      if(!added){
+        item.querySelector('.ri-add').addEventListener('click', function(){
+          purchaseSelected.push(p);
+          renderPcResults(); renderPcSelected();
+        });
+      }
+      box.appendChild(item);
+    });
+  }
+
+  function renderPcSelected(){
+    document.getElementById('pcCount').textContent = purchaseSelected.length;
+    var box = document.getElementById('pcSelected');
+    box.innerHTML = '';
+    if(purchaseSelected.length === 0){
+      box.innerHTML = '<div class="sel-empty">아직 선택한 제품이 없습니다. 위에서 제품을 추가해주세요.</div>';
+      return;
+    }
+    purchaseSelected.forEach(function(p, i){
+      var it = document.createElement('div');
+      it.className = 'sel-item';
+      it.innerHTML = '<span class="si-name"></span>' +
+        '<button type="button" class="si-rm" data-i="' + i + '" aria-label="삭제">×</button>';
+      it.querySelector('.si-name').textContent = p.n;
+      box.appendChild(it);
+    });
+  }
+
+  document.getElementById('pcGroupFilter').addEventListener('click', function(e){
+    var btn = e.target.closest('.pg-btn');
+    if(!btn) return;
+    this.querySelectorAll('.pg-btn').forEach(function(b){ b.classList.remove('selected'); });
+    btn.classList.add('selected');
+    pcFilter = btn.dataset.g;
+    renderPcResults();
+  });
+  document.getElementById('pcSearch').addEventListener('input', renderPcResults);
+  document.getElementById('pcSelected').addEventListener('click', function(e){
+    if(e.target.classList.contains('si-rm')){
+      purchaseSelected.splice(parseInt(e.target.dataset.i, 10), 1);
+      renderPcResults(); renderPcSelected();
+    }
+  });
+  document.getElementById('pcNext').addEventListener('click', function(){
+    if(purchaseSelected.length === 0){
+      showToast('견적을 요청할 제품을 1개 이상 선택해주세요.');
+      return;
+    }
+    setupQuote();
+    showScreen('screen-quote');
+  });
+
+  /* ===== 견적 요청 폼 ===== */
+  function setupQuote(){
+    document.getElementById('qtBrandChip').textContent =
+      (state.brand === 'sh') ? 'SH Scientific' : 'Leadfluid';
+    var qtCat = document.getElementById('qtCatalog');
+    if(state.brand === 'sh'){
+      qtCat.href = 'assets/sh-catalog.pdf';
+      qtCat.setAttribute('download', 'SH Scientific 카탈로그 2025.pdf');
+    }else{
+      qtCat.href = 'assets/leadfluid-catalog.pdf';
+      qtCat.setAttribute('download', 'Leadfluid 카탈로그 2025.pdf');
+    }
+    var box = document.getElementById('qtItems');
+    box.innerHTML = '';
+    purchaseSelected.forEach(function(p){
+      var it = document.createElement('div');
+      it.className = 'quote-item';
+      it.innerHTML = '<div class="qi-name"></div>' +
+        '<div class="qi-qty"><span>수량</span>' +
+        '<input type="number" class="qi-input" min="1" value="1"></div>';
+      it.querySelector('.qi-name').textContent = p.n;
+      box.appendChild(it);
+    });
+  }
+
+  document.getElementById('quoteForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var required = [['qtName','이름 / 담당자'],['qtPhone','연락처'],['qtEmail','이메일']];
+    for(var i=0;i<required.length;i++){
+      var el = document.getElementById(required[i][0]);
+      if(!el.value.trim()){
+        el.focus();
+        showToast(required[i][1] + ' 항목을 입력해주세요.');
+        return;
+      }
+    }
+    var qtItemList = [];
+    var qtyEls = document.querySelectorAll('#qtItems .qi-input');
+    purchaseSelected.forEach(function(p, idx){
+      var qty = qtyEls[idx] ? qtyEls[idx].value : '1';
+      qtItemList.push(p.n + ' [' + p.c + '] 수량 ' + qty);
+    });
+    var qtData = {
+      '브랜드': state.brand === 'sh' ? 'SH Scientific' : 'Leadfluid',
+      '선택 제품': qtItemList.join('  /  '),
+      '상세 모델명 · 추가 옵션': document.getElementById('qtDetail').value.trim() || '-',
+      '견적 요청사항': document.getElementById('qtRequest').value.trim() || '-',
+      '이름 / 담당자': document.getElementById('qtName').value.trim(),
+      '연락처': document.getElementById('qtPhone').value.trim(),
+      '이메일': document.getElementById('qtEmail').value.trim(),
+      '기관 / 회사명': document.getElementById('qtOrg').value.trim() || '-'
+    };
+    submitForm(this, 'purchase', qtData, []);
+  });
+
+  /* ===== 완료 화면 ===== */
+  function showCompletion(type){
+    var t = document.getElementById('doneTitle');
+    var d = document.getElementById('doneDesc');
+    if(type === 'as'){
+      t.textContent = 'A/S 문의가 접수되었습니다';
+      d.textContent = '접수해 주셔서 감사합니다. 담당자가 증상을 확인한 후 입력하신 연락처로 회신드리겠습니다.';
+    }else{
+      t.textContent = '구매 문의가 접수되었습니다';
+      d.textContent = '문의해 주셔서 감사합니다. 담당자가 견적을 검토한 후 입력하신 연락처로 회신드리겠습니다.';
+    }
+    showScreen('screen-done');
+  }
+  document.getElementById('doneHome').addEventListener('click', function(){
+    showScreen('screen-service');
+  });
+
+  /* ===== 접수 전송 (백엔드 API 연동) ===== */
+  function uploadFiles(files){
+    if(!files || !files.length) return Promise.resolve([]);
+    var jobs = files.map(function(f){
+      return fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'content-type': f.type || 'application/octet-stream',
+                   'x-filename': encodeURIComponent(f.name) },
+        body: f
+      }).then(function(res){ return res.json(); }).then(function(r){
+        return (r && r.ok) ? { key: r.key, name: r.name } : null;
+      }).catch(function(){ return null; });
+    });
+    return Promise.all(jobs).then(function(arr){
+      return arr.filter(function(x){ return x; });
+    });
+  }
+
+  function submitForm(form, type, data, files){
+    var btn = form.querySelector('.submit-btn');
+    var orig = btn.textContent;
+    if(location.protocol === 'file:'){
+      showCompletion(type);  /* 로컬 미리보기 — 백엔드 미연결, 화면 흐름만 확인 */
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = '전송 중...';
+    uploadFiles(files).then(function(uploaded){
+      return fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: type, brand: state.brand, data: data, files: uploaded })
+      });
+    }).then(function(res){ return res.json(); }).then(function(r){
+      btn.disabled = false; btn.textContent = orig;
+      if(r && r.ok){ showCompletion(type); }
+      else { showToast('접수 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'); }
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = orig;
+      showToast('네트워크 오류로 접수에 실패했습니다. 다시 시도해주세요.');
+    });
+  }
+
+  /* 이전 버튼 */
+  document.querySelectorAll('.back-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      showScreen(btn.dataset.back);
+    });
+  });
+</script>
+</body>
+</html>
+                                                                                                                                                                                                                     

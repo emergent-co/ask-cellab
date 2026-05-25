@@ -1,0 +1,8 @@
+# 작업용 임시 파일 — 저장소에 불필요
+catalog/
+
+# 사용하지 않는 이미지 — 제품 사진은 index.html에 내장되어 있어 불필요
+assets/leadfluid.jpg
+assets/sh-scientific.jpg
+assets/sh-furnace.jpg
+assets/leadfluid-pump.jpg

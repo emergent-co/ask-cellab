@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>셀렙(이머전트) 접수 관리자</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  :root{--bg:#f3f4f6;--surface:#fff;--ink:#14161b;--ink2:#5c6270;--ink3:#8a8f9c;--line:#e4e6eb;--accent:#1d4ed8;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px;width:100%;}
+
+  .login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .login-box{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    padding:40px 36px;width:100%;max-width:360px;text-align:center;}
+  .login-box h1{font-size:20px;font-weight:800;letter-spacing:-.02em;}
+  .login-box .sub{font-size:13px;color:var(--ink3);margin:4px 0 24px;}
+  .login-box input{width:100%;font-family:inherit;font-size:14px;padding:12px 14px;
+    border:1px solid var(--line);border-radius:10px;}
+  .login-box input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(29,78,216,.13);}
+  .login-box button{width:100%;margin-top:12px;font-family:inherit;font-size:14px;font-weight:700;
+    color:#fff;background:var(--accent);border:none;border-radius:10px;padding:12px;cursor:pointer;}
+  .login-err{color:#dc2626;font-size:13px;margin-top:12px;min-height:18px;}
+  .demo-note{font-size:12px;color:var(--ink3);margin-top:14px;}
+
+  .ad-header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;}
+  .ad-header .wrap{height:60px;display:flex;align-items:center;justify-content:space-between;}
+  .ad-logo{font-size:15px;font-weight:800;letter-spacing:-.02em;}
+  .ad-header button{font-family:inherit;font-size:13px;color:var(--ink2);background:none;
+    border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;margin-left:6px;}
+  .ad-header button:hover{border-color:var(--accent);color:var(--accent);}
+
+  .toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:22px 0 14px;}
+  .fbtn{font-family:inherit;font-size:13px;color:var(--ink2);background:var(--surface);
+    border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;}
+  .fbtn.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600;}
+  .count{margin-left:auto;font-size:13px;color:var(--ink3);}
+
+  .list{display:flex;flex-direction:column;gap:8px;padding-bottom:60px;}
+  .row{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;
+    cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .12s ease;}
+  .row:hover{border-color:var(--accent);}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;flex:none;}
+  .badge.as{background:#eef2ff;color:#1d4ed8;}
+  .badge.purchase{background:#ecfdf5;color:#0f766e;}
+  .row-main{flex:1;min-width:0;}
+  .row-title{font-size:14px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .row-sub{font-size:12px;color:var(--ink3);margin-top:2px;}
+  .status{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;flex:none;}
+  .status.s0{background:#fef3c7;color:#b45309;}
+  .status.s1{background:#dbeafe;color:#1d4ed8;}
+  .status.s2{background:#dcfce7;color:#15803d;}
+  .empty{text-align:center;color:var(--ink3);font-size:14px;padding:60px 0;}
+
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;
+    justify-content:center;padding:24px;z-index:20;}
+  .modal-box{background:var(--surface);border-radius:16px;max-width:560px;width:100%;
+    max-height:86vh;overflow-y:auto;padding:28px;}
+  .modal-box h2{font-size:18px;font-weight:800;}
+  .m-meta{font-size:12px;color:var(--ink3);margin:3px 0 18px;}
+  .m-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .m-table td{padding:7px 0;border-bottom:1px solid var(--line);vertical-align:top;}
+  .m-table td:first-child{color:var(--ink3);width:128px;white-space:nowrap;padding-right:12px;}
+  .m-files{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+  .m-files img{width:92px;height:92px;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block;}
+  .m-file-doc{font-size:12px;color:var(--accent);border:1px solid var(--line);border-radius:8px;
+    padding:10px 13px;text-decoration:none;}
+  .m-actions{display:flex;align-items:center;gap:8px;margin-top:22px;}
+  .m-actions select{font-family:inherit;font-size:13px;padding:9px 12px;border:1px solid var(--line);
+    border-radius:8px;flex:1;}
+  .m-actions .save{font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent);
+    border:none;border-radius:8px;padding:10px 16px;cursor:pointer;}
+  .m-close{font-family:inherit;font-size:13px;color:var(--ink2);background:none;border:1px solid var(--line);
+    border-radius:8px;padding:10px 14px;cursor:pointer;width:100%;margin-top:8px;}
+</style>
+</head>
+<body>
+
+  <div class="login" id="login">
+    <div class="login-box">
+      <h1>접수 관리자</h1>
+      <div class="sub">셀렙(이머전트)</div>
+      <input type="password" id="pw" placeholder="비밀번호" autocomplete="current-password">
+      <button id="loginBtn">로그인</button>
+      <div class="login-err" id="loginErr"></div>
+      <div class="demo-note" id="demoNote" hidden>로컬 미리보기 — 아무 값이나 입력하면 샘플 데이터로 열립니다.</div>
+    </div>
+  </div>
+
+  <div id="main" hidden>
+    <div class="ad-header">
+      <div class="wrap">
+        <span class="ad-logo">셀렙(이머전트) · 접수 관리</span>
+        <div>
+          <button id="refreshBtn">새로고침</button>
+          <button id="logoutBtn">로그아웃</button>
+        </div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="toolbar">
+        <button class="fbtn on" data-f="all">전체</button>
+        <button class="fbtn" data-f="as">A/S 문의</button>
+        <button class="fbtn" data-f="purchase">구매 문의</button>
+        <span class="count" id="count"></span>
+      </div>
+      <div class="list" id="list"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal" hidden><div class="modal-box" id="modalBox"></div></div>
+
+<script>
+  var PW = '';
+  var ALL = [];
+  var filter = 'all';
+  var DEMO = location.protocol === 'file:';
+
+  var demoData = [
+    {id:'demo1', type:'as', brand:'sh', status:'접수됨', created_at:new Date().toISOString(),
+     data: JSON.stringify({'브랜드':'SH Scientific','시리얼 넘버':'20260525-fu-10mgv','제품군':'머플 전기로',
+       '증상 카테고리':'온도 이상','세부 증상':'설정 온도에 도달하지 않음',
+       '상세 증상 설명':'1200도 설정 시 1050도까지만 상승합니다.','기타 요청사항':'-',
+       '이름 / 담당자':'홍길동','연락처':'010-1234-5678','이메일':'hong@example.com','기관 / 회사명':'OO대학교 화학과'}),
+     files:'[]'},
+    {id:'demo2', type:'purchase', brand:'lf', status:'처리중', created_at:new Date(Date.now()-86400000).toISOString(),
+     data: JSON.stringify({'브랜드':'Leadfluid','선택 제품':'BT300S 속도가변형 연동펌프 [BT300S] 수량 2',
+       '상세 모델명 · 추가 옵션':'YZ25 펌프 헤드 포함 견적 요청','견적 요청사항':'납기 일정 문의드립니다.',
+       '이름 / 담당자':'김연구','연락처':'010-9876-5432','이메일':'kim@example.com','기관 / 회사명':'OO연구소'}),
+     files:'[]'},
+    {id:'demo3', type:'as', brand:'lf', status:'완료', created_at:new Date(Date.now()-3*86400000).toISOString(),
+     data: JSON.stringify({'브랜드':'Leadfluid','시리얼 넘버':'20260510-bt600s','제품군':'연동펌프',
+       '증상 카테고리':'토출 · 유량 이상','세부 증상':'유량이 부족함','상세 증상 설명':'-','기타 요청사항':'-',
+       '이름 / 담당자':'이담당','연락처':'010-1111-2222','이메일':'lee@example.com','기관 / 회사명':'OO제약'}),
+     files:'[]'}
+  ];
+
+  if(DEMO) document.getElementById('demoNote').hidden = false;
+
+  function api(path){
+    return '/api/admin' + path + (path.indexOf('?')<0?'?':'&') + 'pw=' + encodeURIComponent(PW);
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', login);
+  document.getElementById('pw').addEventListener('keydown', function(e){ if(e.key==='Enter') login(); });
+
+  function login(){
+    PW = document.getElementById('pw').value;
+    var err = document.getElementById('loginErr');
+    err.textContent = '';
+    if(DEMO){ enterMain(); return; }
+    if(!PW){ err.textContent = '비밀번호를 입력해주세요.'; return; }
+    fetch(api('?action=list')).then(function(r){
+      if(r.status === 401){ err.textContent = '비밀번호가 올바르지 않습니다.'; return null; }
+      return r.json();
+    }).then(function(d){
+      if(d && d.ok){ ALL = d.items; enterMain(); }
+      else if(d){ err.textContent = '접수 목록을 불러오지 못했습니다.'; }
+    }).catch(function(){ err.textContent = '서버에 연결할 수 없습니다.'; });
+  }
+
+  function enterMain(){
+    document.getElementById('login').hidden = true;
+    document.getElementById('main').hidden = false;
+    if(DEMO) ALL = demoData;
+    render();
+  }
+
+  function loadList(){
+    if(DEMO){ ALL = demoData; render(); return; }
+    fetch(api('?action=list')).then(function(r){ return r.json(); }).then(function(d){
+      if(d && d.ok){ ALL = d.items; render(); }
+    }).catch(function(){});
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', loadList);
+  document.getElementById('logoutBtn').addEventListener('click', function(){ location.reload(); });
+  document.querySelectorAll('.fbtn').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.fbtn').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on'); filter = b.dataset.f; render();
+    });
+  });
+
+  function statusClass(s){ return s==='완료' ? 's2' : s==='처리중' ? 's1' : 's0'; }
+
+  function render(){
+    var items = ALL.filter(function(it){ return filter==='all' || it.type===filter; });
+    document.getElementById('count').textContent = '총 ' + items.length + '건';
+    var box = document.getElementById('list');
+    box.innerHTML = '';
+    if(!items.length){ box.innerHTML = '<div class="empty">접수 내역이 없습니다.</div>'; return; }
+    items.forEach(function(it){
+      var data = parse(it.data);
+      var brand = it.brand==='sh' ? 'SH Scientific' : it.brand==='lf' ? 'Leadfluid' : '-';
+      var who = (data['이름 / 담당자']||'-') + ' · ' + (data['기관 / 회사명']||'-');
+      var row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML =
+        '<span class="badge '+it.type+'">'+(it.type==='as'?'A/S':'구매')+'</span>'+
+        '<div class="row-main"><div class="row-title"></div><div class="row-sub"></div></div>'+
+        '<span class="status '+statusClass(it.status)+'">'+esc(it.status)+'</span>';
+      row.querySelector('.row-title').textContent = brand + '  ·  ' + who;
+      row.querySelector('.row-sub').textContent = fmtDate(it.created_at) + '  ·  #' + it.id;
+      row.addEventListener('click', function(){ openDetail(it); });
+      box.appendChild(row);
+    });
+  }
+
+  function openDetail(it){
+    var data = parse(it.data);
+    var files = parse(it.files) || [];
+    var rows = '';
+    Object.keys(data).forEach(function(k){
+      rows += '<tr><td>'+esc(k)+'</td><td>'+esc(String(data[k])).replace(/\n/g,'<br>')+'</td></tr>';
+    });
+    var filesHtml = '';
+    if(files.length){
+      filesHtml = '<div style="font-size:13px;color:#5c6270;margin-top:18px">첨부파일 '+files.length+'건</div><div class="m-files">';
+      files.forEach(function(f){
+        var url = DEMO ? '#' : api('?action=file&key='+encodeURIComponent(f.key));
+        if(/\.(jpg|jpeg|png|gif|webp)$/i.test(f.name||'')){
+          filesHtml += '<a href="'+url+'" target="_blank"><img src="'+url+'" alt=""></a>';
+        }else{
+          filesHtml += '<a class="m-file-doc" href="'+url+'" target="_blank">'+esc(f.name||'파일')+'</a>';
+        }
+      });
+      filesHtml += '</div>';
+    }
+    document.getElementById('modalBox').innerHTML =
+      '<h2>'+(it.type==='as'?'A/S 문의':'구매 문의')+'</h2>'+
+      '<div class="m-meta">접수번호 #'+esc(it.id)+'  ·  '+fmtDate(it.created_at)+'</div>'+
+      '<table class="m-table">'+rows+'</table>'+filesHtml+
+      '<div class="m-actions"><select id="stSel">'+
+        ['접수됨','처리중','완료'].map(function(s){
+          return '<option'+(s===it.status?' selected':'')+'>'+s+'</option>';
+        }).join('')+
+      '</select><button class="save" id="stSave">상태 저장</button></div>'+
+      '<button class="m-close" id="mClose">닫기</button>';
+    document.getElementById('modal').hidden = false;
+    document.getElementById('mClose').addEventListener('click', closeModal);
+    document.getElementById('stSave').addEventListener('click', function(){
+      var ns = document.getElementById('stSel').value;
+      if(DEMO){ it.status = ns; closeModal(); render(); return; }
+      fetch('/api/admin?pw='+encodeURIComponent(PW), {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({action:'status', id:it.id, status:ns})
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if(d && d.ok){ it.status = ns; closeModal(); render(); }
+        else alert('상태 변경에 실패했습니다.');
+      }).catch(function(){ alert('서버 연결에 실패했습니다.'); });
+    });
+  }
+  function closeModal(){ document.getElementById('modal').hidden = true; }
+  document.getElementById('modal').addEventListener('click', function(e){
+    if(e.target.id==='modal') closeModal();
+  });
+
+  function parse(s){ try{ return typeof s==='string' ? JSON.parse(s) : (s||{}); }catch(e){ return {}; } }
+  function esc(s){ return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+  function fmtDate(iso){
+    try{
+      var d = new Date(iso);
+      return d.getFullYear()+'.'+p(d.getMonth()+1)+'.'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+    }catch(e){ return String(iso); }
+  }
+  function p(n){ return (n<10?'0':'')+n; }
+</script>
+</body>
+</html>
