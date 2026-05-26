@@ -56,7 +56,9 @@ async function notify(env, s) {
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(body)
   });
-  return 'formspree_status_' + res.status;
+  let text = '';
+  try { text = await res.text(); } catch (_) {}
+  return 'formspree_' + res.status + '|' + text.slice(0, 300);
 }
 
 function esc(s) {
