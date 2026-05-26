@@ -21,17 +21,18 @@ export async function onRequestPost({ request, env }) {
       'INSERT INTO submissions (id,type,brand,status,data,files,created_at) VALUES (?,?,?,?,?,?,?)'
     ).bind(id, type, brand, '접수됨', JSON.stringify(data), JSON.stringify(files), created_at).run();
 
-    try { await notify(env, { id, type, brand, data, files }); }
-    catch (e) { /* 메일 실패해도 접수는 정상 처리 */ }
+    let mailResult = 'skipped';
+    try { mailResult = (await notify(env, { id, type, brand, data, files })) || 'sent'; }
+    catch (e) { mailResult = 'error: ' + String(e); }
 
-    return json({ ok: true, id: id });
+    return json({ ok: true, id: id, mailResult: mailResult });
   } catch (e) {
     return json({ ok: false, error: String(e) }, 500);
   }
 }
 
 async function notify(env, s) {
-  if (!env.FORMSPREE_URL) return;
+  if (!env.FORMSPREE_URL) return 'no_FORMSPREE_URL_env';
   const typeName = s.type === 'as' ? 'A/S 문의' : '구매 문의';
   const brandName = s.brand === 'sh' ? 'SH Scientific' : s.brand === 'lf' ? 'Leadfluid' : '-';
 
@@ -50,11 +51,12 @@ async function notify(env, s) {
   body.첨부파일수 = s.files.length;
   body.관리자페이지 = 'https://ask.cellab.kr/admin.html';
 
-  await fetch(env.FORMSPREE_URL, {
+  const res = await fetch(env.FORMSPREE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify(body)
   });
+  return 'formspree_status_' + res.status;
 }
 
 function esc(s) {
