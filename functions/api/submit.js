@@ -36,20 +36,26 @@ async function notify(env, s) {
   const typeName = s.type === 'as' ? 'A/S 문의' : '구매 문의';
   const brandName = s.brand === 'sh' ? 'SH Scientific' : s.brand === 'lf' ? 'Leadfluid' : '-';
 
-  const body = {
-    _subject: '[셀렙] 새 ' + typeName + ' 접수 - ' + brandName,
-    _replyto: env.ADMIN_EMAIL || 'emgt.yhlee@gmail.com',
-    접수번호: s.id,
-    접수유형: typeName,
-    브랜드: brandName
-  };
+  const lines = [
+    '접수번호: ' + s.id,
+    '접수유형: ' + typeName,
+    '브랜드: ' + brandName,
+    ''
+  ];
   Object.keys(s.data).forEach(function (k) {
     let v = s.data[k];
     if (v && typeof v === 'object') v = JSON.stringify(v);
-    body[k] = v == null ? '' : v;
+    lines.push(k + ': ' + (v == null ? '' : v));
   });
-  body.첨부파일수 = s.files.length;
-  body.관리자페이지 = 'https://ask.cellab.kr/admin.html';
+  if (s.files.length) lines.push('', '첨부파일 수: ' + s.files.length);
+  lines.push('', '관리자 페이지: https://ask.cellab.kr/admin.html');
+
+  const body = {
+    _subject: '[셀렙] 새 ' + typeName + ' 접수 - ' + brandName,
+    email: env.ADMIN_EMAIL || 'emgt.yhlee@gmail.com',
+    name: typeName + ' / ' + brandName,
+    message: lines.join('\n')
+  };
 
   const res = await fetch(env.FORMSPREE_URL, {
     method: 'POST',
