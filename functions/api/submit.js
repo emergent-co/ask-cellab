@@ -21,11 +21,8 @@ export async function onRequestPost({ request, env }) {
       'INSERT INTO submissions (id,type,brand,status,data,files,created_at) VALUES (?,?,?,?,?,?,?)'
     ).bind(id, type, brand, '접수됨', JSON.stringify(data), JSON.stringify(files), created_at).run();
 
-    let mailResult = 'skipped';
-    try { mailResult = (await notify(env, { id, type, brand, data, files })) || 'sent'; }
-    catch (e) { mailResult = 'error: ' + String(e); }
-
-    return json({ ok: true, id: id, mailResult: mailResult });
+    /* 메일 알림은 브라우저에서 직접 Formspree로 전송 (Worker IP는 스팸 필터링됨) */
+    return json({ ok: true, id: id });
   } catch (e) {
     return json({ ok: false, error: String(e) }, 500);
   }

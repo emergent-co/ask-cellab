@@ -1208,28 +1208,61 @@
     });
   }
 
+  var FORMSPREE_URL = 'https://formspree.io/f/xkoepwpb';
+
+  function notifyFormspree(type, data, files, id){
+    var typeName = type === 'as' ? 'A/S 문의' : '구매 문의';
+    var brandName = state.brand === 'sh' ? 'SH Scientific' : state.brand === 'lf' ? 'Leadfluid' : '-';
+    var lines = [
+      '접수번호: ' + id,
+      '접수유형: ' + typeName,
+      '브랜드: ' + brandName,
+      ''
+    ];
+    Object.keys(data).forEach(function(k){ lines.push(k + ': ' + data[k]); });
+    if(files && files.length) lines.push('', '첨부파일 수: ' + files.length);
+    return fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: '[셀렙] 새 ' + typeName + ' 접수 - ' + brandName,
+        email: 'emgt.yhlee@gmail.com',
+        name: typeName + ' / ' + brandName,
+        message: lines.join('\n')
+      })
+    });
+  }
+
   function submitForm(form, type, data, files){
     var btn = form.querySelector('.submit-btn');
     var orig = btn.textContent;
     if(location.protocol === 'file:'){
-      showCompletion(type);  /* 로컬 미리보기 — 백엔드 미연결, 화면 흐름만 확인 */
+      showCompletion(type);  /* 로컬 미리보기 */
       return;
     }
     btn.disabled = true;
     btn.textContent = '전송 중...';
+    var uploadedFiles = [];
+    var submitId = '';
     uploadFiles(files).then(function(uploaded){
+      uploadedFiles = uploaded;
       return fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type: type, brand: state.brand, data: data, files: uploaded })
       });
     }).then(function(res){ return res.json(); }).then(function(r){
+      if(!(r && r.ok)) throw new Error('submit failed');
+      submitId = r.id;
+      /* 브라우저에서 직접 Formspree 호출 — Cloudflare Worker IP는 스팸 필터링됨 */
+      return notifyFormspree(type, data, uploadedFiles, submitId).catch(function(){});
+    }).then(function(){
       btn.disabled = false; btn.textContent = orig;
-      if(r && r.ok){ showCompletion(type); }
-      else { showToast('접수 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'); }
+      showCompletion(type);
     }).catch(function(){
       btn.disabled = false; btn.textContent = orig;
-      showToast('네트워크 오류로 접수에 실패했습니다. 다시 시도해주세요.');
+      if(submitId){ showCompletion(type); }
+      else { showToast('접수 처리 중 오류가 발생했습니다. 다시 시도해주세요.'); }
     });
   }
 
