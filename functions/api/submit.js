@@ -31,41 +31,29 @@ export async function onRequestPost({ request, env }) {
 }
 
 async function notify(env, s) {
-  if (!env.RESEND_API_KEY) return;
+  if (!env.FORMSPREE_URL) return;
   const typeName = s.type === 'as' ? 'A/S 문의' : '구매 문의';
   const brandName = s.brand === 'sh' ? 'SH Scientific' : s.brand === 'lf' ? 'Leadfluid' : '-';
 
-  const rows = Object.keys(s.data).map(function (k) {
+  const body = {
+    _subject: '[셀렙] 새 ' + typeName + ' 접수 - ' + brandName,
+    _replyto: env.ADMIN_EMAIL || 'emgt.yhlee@gmail.com',
+    접수번호: s.id,
+    접수유형: typeName,
+    브랜드: brandName
+  };
+  Object.keys(s.data).forEach(function (k) {
     let v = s.data[k];
     if (v && typeof v === 'object') v = JSON.stringify(v);
-    return '<tr><td style="padding:5px 14px 5px 0;color:#888;white-space:nowrap;vertical-align:top">' +
-      esc(k) + '</td><td style="padding:5px 0">' + esc(String(v == null ? '' : v)) + '</td></tr>';
-  }).join('');
+    body[k] = v == null ? '' : v;
+  });
+  body.첨부파일수 = s.files.length;
+  body.관리자페이지 = 'https://ask.cellab.kr/admin.html';
 
-  const html =
-    '<div style="font-family:sans-serif;max-width:560px">' +
-    '<h2 style="margin:0 0 4px">새 ' + typeName + ' 접수</h2>' +
-    '<p style="color:#888;margin:0 0 16px;font-size:13px">브랜드: ' + brandName +
-    ' &nbsp;·&nbsp; 접수번호: ' + esc(s.id) + '</p>' +
-    '<table style="border-collapse:collapse;font-size:14px;line-height:1.5">' + rows + '</table>' +
-    (s.files.length ? '<p style="margin-top:14px;font-size:14px">첨부파일 ' + s.files.length +
-      '건 — 관리자 페이지에서 확인하세요.</p>' : '') +
-    '<p style="margin-top:20px"><a href="https://ask.cellab.kr/admin.html" ' +
-    'style="background:#1d4ed8;color:#fff;text-decoration:none;padding:10px 18px;' +
-    'border-radius:8px;font-size:14px">관리자 페이지에서 접수 확인</a></p></div>';
-
-  await fetch('https://api.resend.com/emails', {
+  await fetch(env.FORMSPREE_URL, {
     method: 'POST',
-    headers: {
-      'Authorization': 'Bearer ' + env.RESEND_API_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: env.MAIL_FROM || 'onboarding@resend.dev',
-      to: env.ADMIN_EMAIL || 'emgt.yhlee@gmail.com',
-      subject: '[셀렙] 새 ' + typeName + ' 접수 - ' + brandName,
-      html: html
-    })
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(body)
   });
 }
 
